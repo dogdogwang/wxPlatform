@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 为这个mapper指定一个唯一的namespace，namespace的值习惯上设置成包名+sql映射文件名，这样就能够保证namespace的值是唯一的
+例如namespace="me.gacl.mapping.userMapper"就是me.gacl.mapping(包名)+userMapper(userMapper.xml文件去除后缀)
+-->
+<mapper namespace="net.wjd.wx.user.dao.UserDao">
+
+	<select id="getUser" parameterType="map" resultType="net.wjd.wx.user.model.User">
+　　　　select * from t_user where `username` = #{username}
+　　</select>
+
+	<resultMap id="BaseResultMap" type="net.wjd.wx.user.model.User" >  
+	    <id column="id" property="id" jdbcType="VARCHAR" />  
+	    <result column="username" property="username" jdbcType="VARCHAR" />  
+	    <result column="password" property="password" jdbcType="VARCHAR" />  
+	  </resultMap> 
+	<sql id="Base_Column_List" >  
+	    id, username, password
+	 </sql>  
+	 <select id="selectByUsername" resultMap="BaseResultMap" parameterType="java.lang.String" >  
+	    select   
+	    <include refid="Base_Column_List" />  
+	    from t_user  
+	    where username = #{username,jdbcType=VARCHAR}  
+	  </select> 
+	  
+	  
+	  <insert id="addUser" parameterType="net.wjd.wx.user.model.User" >  
+	    insert into t_user  
+	    <trim prefix="(" suffix=")" suffixOverrides="," >  
+	      <if test="id != null" >  
+	        id,  
+	      </if>  
+	      <if test="username != null" >  
+	        username,  
+	      </if>  
+	      <if test="password != null" >  
+	        password,  
+	      </if>  
+	    </trim>  
+	    <trim prefix="values (" suffix=")" suffixOverrides="," >  
+	      <if test="id != null" >  
+	        #{id,jdbcType=INTEGER},  
+	      </if>  
+	      <if test="username != null" >  
+	        #{username,jdbcType=VARCHAR},  
+	      </if>  
+	      <if test="password != null" >  
+	        #{password,jdbcType=VARCHAR},
+	      </if>  
+	    </trim>  
+	  </insert>
+
+	<delete id="deleteUser">
+		delete from t_user where id='1'
+	</delete>
+
+
+</mapper>
+
